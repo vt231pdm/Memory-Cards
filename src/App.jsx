@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import { Layout } from "./components/Layout";
+import { StartPage } from "./pages/StartPage";
+import { GamePage } from "./pages/GamePage";
+import { ResultsPage } from "./pages/ResultsPage";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [screen, setScreen] = useState("start");
+  const [moves, setMoves] = useState(0);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Layout moves={screen === "game" ? moves : undefined}>
+      {screen === "start" && <StartPage onStart={() => setScreen("game")} />}
 
-export default App
+      {screen === "game" && (
+        <GamePage
+          moves={moves}
+          setMoves={setMoves}
+          onFinish={() => setScreen("results")}
+        />
+      )}
+
+      {screen === "results" && (
+        <ResultsPage
+          finalMoves={moves}
+          onRestart={() => {
+            setScreen("start");
+            setMoves(0);
+          }}
+        />
+      )}
+    </Layout>
+  );
+}
