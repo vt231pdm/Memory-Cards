@@ -1,18 +1,20 @@
 :root {
-  --bg-color: #f8f9fa;
-  --header-bg: #2d3436;
+  --bg-color: #f0f2f5;
   --card-blue: #4a86b8;
-  --card-hover: #3498db;
-  --card-white: #ffffff;
   --accent-orange: #ff793f;
-  --text-main: #2d3436;
+  --header-bg: #2d3436;
 }
 
-body {
+* {
+  box-sizing: border-box;
+}
+body,
+html {
   margin: 0;
+  padding: 0;
+  height: 100%;
   background-color: var(--bg-color);
-  font-family: "Segoe UI", Roboto, sans-serif;
-  color: var(--text-main);
+  font-family: "Segoe UI", sans-serif;
 }
 
 .app-layout {
@@ -24,21 +26,8 @@ body {
 
 header {
   background: var(--header-bg);
-  padding: 10px 30px;
   color: white;
-  flex-shrink: 0;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-footer {
-  padding: 10px;
-  background: #f0f0f0;
-  font-size: 0.8rem;
-  text-align: center;
+  padding: 15px 30px;
   flex-shrink: 0;
 }
 
@@ -47,80 +36,103 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   padding: 20px;
-  min-height: 0;
+  position: relative;
 }
 
-.stats {
-  margin-bottom: 20px;
+.start-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.start-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.start-form select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  max-width: 400px;
+  width: 90%;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  width: 90%;
-  max-width: 1000px;
-  margin: 0 auto;
+  gap: 15px;
+  width: 100%;
+  max-width: 900px;
   max-height: calc(100vh - 200px);
-  align-content: start;
 }
 
 .card {
-  position: relative;
-  width: 100%;
   aspect-ratio: 1.6 / 1;
-  border-radius: 12px;
-  cursor: pointer;
   background-color: var(--card-blue);
-  transition: transform 0.2s ease, background-color 0.2s;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  border: none;
+  border-radius: 10px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: white;
+  font-size: 2.5rem;
+  transition: transform 0.2s;
 }
 
 .card.flipped {
-  background-color: var(--card-white);
+  background-color: white;
+  color: black;
   box-shadow: inset 0 0 0 3px var(--card-blue);
 }
 
-.card-face {
-  font-size: clamp(2rem, 5vw, 4rem);
-  line-height: 1;
-  user-select: none;
-}
-
-.card:hover:not(.flipped) {
-  transform: translateY(-5px);
-  background-color: var(--card-hover);
-}
-
 .btn {
-  padding: 8px 20px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
-}
-
-.btn-secondary {
-  background: var(--accent-orange);
+  background-color: var(--card-blue);
   color: white;
 }
 
-@media (max-height: 700px) {
-  .grid {
-    gap: 10px;
-    max-width: 800px;
-  }
-  .card-face {
-    font-size: 2.5rem;
-  }
+.btn-secondary {
+  background-color: var(--accent-orange);
+}
+
+footer {
+  padding: 10px;
+  background: #ddd;
+  text-align: center;
+  flex-shrink: 0;
 }

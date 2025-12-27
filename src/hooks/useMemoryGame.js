@@ -1,6 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-const EMOJIS = ["🍎", "🍌", "🍇", "🍊", "🍓", "🍍", "🥝", "🍉"];
+const ALL_EMOJIS = [
+  "🍎",
+  "🍌",
+  "🍇",
+  "🍊",
+  "🍓",
+  "🍍",
+  "🥝",
+  "🍉",
+  "🍒",
+  "🍑",
+  "🍐",
+  "🫐",
+  "🥑",
+  "🥦",
+  "🌽",
+  "🥕",
+];
 
 export const useMemoryGame = (onFinish) => {
   const [cards, setCards] = useState([]);
@@ -8,8 +25,20 @@ export const useMemoryGame = (onFinish) => {
   const [matchedPairs, setMatchedPairs] = useState(0);
   const [moves, setMoves] = useState(0);
 
-  const initGame = () => {
-    const deck = [...EMOJIS, ...EMOJIS]
+  const getPairsCount = () => {
+    const saved = localStorage.getItem("gamePairs");
+    return saved ? Number(saved) : 8;
+  };
+
+  const initGame = useCallback(() => {
+    const count = getPairsCount();
+
+    const selectedEmojis = ALL_EMOJIS.sort(() => Math.random() - 0.5).slice(
+      0,
+      count
+    );
+
+    const deck = [...selectedEmojis, ...selectedEmojis]
       .sort(() => Math.random() - 0.5)
       .map((emoji, index) => ({
         id: index,
@@ -17,11 +46,12 @@ export const useMemoryGame = (onFinish) => {
         isFlipped: false,
         isMatched: false,
       }));
+
     setCards(deck);
     setMoves(0);
     setMatchedPairs(0);
     setFlippedCards([]);
-  };
+  }, []);
 
   const handleCardClick = (id) => {
     const card = cards.find((c) => c.id === id);
@@ -32,7 +62,7 @@ export const useMemoryGame = (onFinish) => {
       c.id === id ? { ...c, isFlipped: true } : c
     );
     setCards(newCards);
-    setFlippedCards([...flippedCards, card]);
+    setFlippedCards((prev) => [...prev, card]);
   };
 
   useEffect(() => {
@@ -49,7 +79,7 @@ export const useMemoryGame = (onFinish) => {
         setMatchedPairs((prev) => prev + 1);
         setFlippedCards([]);
       } else {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           setCards((prev) =>
             prev.map((c) =>
               c.id === first.id || c.id === second.id
@@ -59,13 +89,18 @@ export const useMemoryGame = (onFinish) => {
           );
           setFlippedCards([]);
         }, 1000);
+        return () => clearTimeout(timer);
       }
     }
   }, [flippedCards]);
 
   useEffect(() => {
-    if (matchedPairs === EMOJIS.length && matchedPairs > 0) {
-      setTimeout(onFinish, 500);
+    const count = getPairsCount();
+    if (matchedPairs === count && count > 0) {
+      const timer = setTimeout(() => {
+        onFinish();
+      }, 600);
+      return () => clearTimeout(timer);
     }
   }, [matchedPairs, onFinish]);
 

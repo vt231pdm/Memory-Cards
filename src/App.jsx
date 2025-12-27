@@ -1,29 +1,41 @@
-import { useState } from "react";
 import "./App.css";
-import { Layout } from "./components/Layout";
+import { useState } from "react";
 import { StartPage } from "./pages/StartPage";
 import { GamePage } from "./pages/GamePage";
-import { ResultsPage } from "./pages/ResultsPage";
+import { ResultModal } from "./components/ResultModal";
+import { Layout } from "./components/Layout";
 
 function App() {
   const [screen, setScreen] = useState("start");
   const [moves, setMoves] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleFinish = () => setShowModal(true);
+
+  const restartCurrent = () => {
+    setShowModal(false);
+    setScreen("reset");
+    setTimeout(() => setScreen("game"), 10);
+  };
+
+  const goToStart = () => {
+    setShowModal(false);
+    setScreen("start");
+  };
 
   return (
-    <Layout moves={screen === "game" ? moves : undefined}>
+    <Layout>
       {screen === "start" && <StartPage onStart={() => setScreen("game")} />}
 
       {screen === "game" && (
-        <GamePage setMoves={setMoves} onFinish={() => setScreen("results")} />
+        <GamePage setMoves={setMoves} onFinish={handleFinish} />
       )}
 
-      {screen === "results" && (
-        <ResultsPage
-          finalMoves={moves}
-          onRestart={() => {
-            setScreen("start");
-            setMoves(0);
-          }}
+      {showModal && (
+        <ResultModal
+          moves={moves}
+          onRestart={restartCurrent}
+          onNewGame={goToStart}
         />
       )}
     </Layout>
