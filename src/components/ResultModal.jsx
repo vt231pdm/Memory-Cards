@@ -1,15 +1,23 @@
+import React from "react";
 import ReactDOM from "react-dom";
+import styles from "../styles/App.module.css";
 
 export const ResultModal = ({ moves, onRestart, onNewGame }) => {
   return ReactDOM.createPortal(
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="modal-icon">🎉</div>
-        <h2>Чудова робота!</h2>
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContent}>
+        <h2>🎉 Вітаємо!</h2>
         <p>
-          Ваш результат: <strong>{moves}</strong> ходів
+          Ви знайшли всі пари за <strong>{moves}</strong> ходів.
         </p>
-        <div className="modal-buttons">
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
           <button onClick={onRestart} className="btn btn-primary">
             Зіграти ще раз
           </button>

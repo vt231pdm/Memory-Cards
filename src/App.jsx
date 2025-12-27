@@ -1,44 +1,51 @@
-import "./App.css";
-import { useState } from "react";
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { StartPage } from "./pages/StartPage";
 import { GamePage } from "./pages/GamePage";
 import { ResultModal } from "./components/ResultModal";
 import { Layout } from "./components/Layout";
+import styles from "./styles/App.module.css";
 
 function App() {
-  const [screen, setScreen] = useState("start");
-  const [moves, setMoves] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [moves, setMoves] = useState(0);
 
-  const handleFinish = () => setShowModal(true);
-
-  const restartCurrent = () => {
-    setShowModal(false);
-    setScreen("reset");
-    setTimeout(() => setScreen("game"), 10);
-  };
-
-  const goToStart = () => {
-    setShowModal(false);
-    setScreen("start");
+  const handleFinish = (finalMoves) => {
+    setMoves(finalMoves);
+    setShowModal(true);
   };
 
   return (
-    <Layout>
-      {screen === "start" && <StartPage onStart={() => setScreen("game")} />}
-
-      {screen === "game" && (
-        <GamePage setMoves={setMoves} onFinish={handleFinish} />
-      )}
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<StartPage />} />
+          <Route
+            path="/game/:userId"
+            element={<GamePage onFinish={handleFinish} />}
+          />
+        </Routes>
+      </Layout>
 
       {showModal && (
         <ResultModal
           moves={moves}
-          onRestart={restartCurrent}
-          onNewGame={goToStart}
+          onRestart={() => {
+            setShowModal(false);
+            window.location.reload();
+          }}
+          onNewGame={() => {
+            setShowModal(false);
+            window.location.href = "/";
+          }}
         />
       )}
-    </Layout>
+    </Router>
   );
 }
 

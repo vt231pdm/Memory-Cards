@@ -1,28 +1,35 @@
-import { useEffect } from "react";
-import { Card } from "../components/Card";
-import { Button } from "../components/Button";
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useMemoryGame } from "../hooks/useMemoryGame";
+import { Card } from "../components/Card";
+import styles from "../styles/App.module.css";
 
-export const GamePage = ({ onFinish, setMoves }) => {
-  const { cards, moves, handleCardClick, initGame } = useMemoryGame(onFinish);
+export const GamePage = ({ onFinish }) => {
+  const { userId } = useParams();
+  const navigate = useNavigate();
+
+  const { cards, moves, handleCardClick, initGame } = useMemoryGame(() =>
+    onFinish(moves)
+  );
 
   useEffect(() => {
     initGame();
-  }, []);
-
-  useEffect(() => {
-    setMoves(moves);
-  }, [moves, setMoves]);
+  }, [initGame]);
 
   return (
-    <div className="page game-screen">
-      <div className="stats">
-        <span>Спроби: {moves}</span>
-        <Button variant="secondary" onClick={onFinish}>
-          Завершити
-        </Button>
+    <div className={styles.content}>
+      <div className={styles.userIdDisplay}>
+        Гравець: <strong>{userId}</strong>
       </div>
-      <div className="grid">
+
+      <div className={styles.stats}>
+        <span>Хиби: {moves}</span>
+        <button className="btn btn-secondary" onClick={() => navigate("/")}>
+          Завершити
+        </button>
+      </div>
+
+      <div className={styles.grid}>
         {cards.map((card) => (
           <Card
             key={card.id}
