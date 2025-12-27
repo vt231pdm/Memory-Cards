@@ -1,12 +1,18 @@
+import { useEffect } from "react";
 import { Card } from "../components/Card";
 import { Button } from "../components/Button";
+import { useMemoryGame } from "../hooks/useMemoryGame";
 
-export const GamePage = ({ onFinish, moves, setMoves }) => {
-  const demoCards = Array(12).fill({ emoji: "🍎", flipped: false });
+export const GamePage = ({ onFinish, setMoves }) => {
+  const { cards, moves, handleCardClick, initGame } = useMemoryGame(onFinish);
 
-  const handleCardClick = () => {
-    setMoves((prev) => prev + 1);
-  };
+  useEffect(() => {
+    initGame();
+  }, []);
+
+  useEffect(() => {
+    setMoves(moves);
+  }, [moves, setMoves]);
 
   return (
     <div className="page game-screen">
@@ -17,12 +23,12 @@ export const GamePage = ({ onFinish, moves, setMoves }) => {
         </Button>
       </div>
       <div className="grid">
-        {demoCards.map((card, i) => (
+        {cards.map((card) => (
           <Card
-            key={i}
-            content={card.emoji}
-            isFlipped={card.flipped}
-            onClick={handleCardClick}
+            key={card.id}
+            content={card.content}
+            isFlipped={card.isFlipped || card.isMatched}
+            onClick={() => handleCardClick(card.id)}
           />
         ))}
       </div>

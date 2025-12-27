@@ -14,11 +14,7 @@ function App() {
       {screen === "start" && <StartPage onStart={() => setScreen("game")} />}
 
       {screen === "game" && (
-        <GamePage
-          moves={moves}
-          setMoves={setMoves}
-          onFinish={() => setScreen("results")}
-        />
+        <GamePage setMoves={setMoves} onFinish={() => setScreen("results")} />
       )}
 
       {screen === "results" && (
