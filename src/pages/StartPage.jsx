@@ -1,8 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useGameStore } from "../store/useGameStore";
 import styles from "../styles/App.module.css";
 
 const schema = yup
@@ -14,6 +15,7 @@ const schema = yup
 
 export const StartPage = () => {
   const navigate = useNavigate();
+  const { cardCount, setCardCount } = useGameStore();
 
   const {
     register,
@@ -23,12 +25,12 @@ export const StartPage = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       username: "",
-      cardCount: 8,
+      cardCount: cardCount,
     },
   });
 
   const onSubmit = (data) => {
-    localStorage.setItem("gamePairs", data.cardCount);
+    setCardCount(data.cardCount);
     navigate(`/game/${data.username}`);
   };
 
@@ -62,6 +64,17 @@ export const StartPage = () => {
             Почати гру
           </button>
         </form>
+        <Link
+          to="/leaderboard"
+          className="btn btn-secondary"
+          style={{
+            marginTop: "15px",
+            display: "inline-block",
+            textDecoration: "none",
+          }}
+        >
+          🏆 Таблиця рекордів
+        </Link>
       </div>
     </div>
   );

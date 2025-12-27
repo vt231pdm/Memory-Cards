@@ -8,9 +8,9 @@ export const GamePage = ({ onFinish }) => {
   const { userId } = useParams();
   const navigate = useNavigate();
 
-  const { cards, moves, handleCardClick, initGame } = useMemoryGame(() =>
-    onFinish(moves)
-  );
+  const { cards, moves, handleCardClick, initGame } = useMemoryGame(() => {
+    onFinish(moves, userId);
+  });
 
   useEffect(() => {
     initGame();

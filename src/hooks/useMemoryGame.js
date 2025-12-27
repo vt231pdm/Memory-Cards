@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useGameStore } from "../store/useGameStore";
 
 const ALL_EMOJIS = [
   "🍎",
@@ -24,20 +25,14 @@ export const useMemoryGame = (onFinish) => {
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
   const [moves, setMoves] = useState(0);
+  const [isGameOver, setIsGameOver] = useState(false);
 
-  const getPairsCount = () => {
-    const saved = localStorage.getItem("gamePairs");
-    return saved ? Number(saved) : 8;
-  };
+  const cardCount = useGameStore((state) => state.cardCount);
 
   const initGame = useCallback(() => {
-    const count = getPairsCount();
-
-    const selectedEmojis = ALL_EMOJIS.sort(() => Math.random() - 0.5).slice(
-      0,
-      count
-    );
-
+    const selectedEmojis = [...ALL_EMOJIS]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, cardCount);
     const deck = [...selectedEmojis, ...selectedEmojis]
       .sort(() => Math.random() - 0.5)
       .map((emoji, index) => ({
@@ -46,16 +41,16 @@ export const useMemoryGame = (onFinish) => {
         isFlipped: false,
         isMatched: false,
       }));
-
     setCards(deck);
     setMoves(0);
     setMatchedPairs(0);
     setFlippedCards([]);
-  }, []);
+    setIsGameOver(false);
+  }, [cardCount]);
 
   const handleCardClick = (id) => {
+    if (isGameOver) return;
     const card = cards.find((c) => c.id === id);
-
     if (card.isFlipped || card.isMatched || flippedCards.length === 2) return;
 
     const newCards = cards.map((c) =>
@@ -69,7 +64,6 @@ export const useMemoryGame = (onFinish) => {
     if (flippedCards.length === 2) {
       setMoves((prev) => prev + 1);
       const [first, second] = flippedCards;
-
       if (first.content === second.content) {
         setCards((prev) =>
           prev.map((c) =>
@@ -95,14 +89,11 @@ export const useMemoryGame = (onFinish) => {
   }, [flippedCards]);
 
   useEffect(() => {
-    const count = getPairsCount();
-    if (matchedPairs === count && count > 0) {
-      const timer = setTimeout(() => {
-        onFinish();
-      }, 600);
-      return () => clearTimeout(timer);
+    if (matchedPairs > 0 && matchedPairs === Number(cardCount) && !isGameOver) {
+      setIsGameOver(true);
+      onFinish();
     }
-  }, [matchedPairs, onFinish]);
+  }, [matchedPairs, cardCount, isGameOver, onFinish]);
 
   return { cards, moves, handleCardClick, initGame };
 };
