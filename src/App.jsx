@@ -1,3 +1,4 @@
+import CookieConsent from "react-cookie-consent";
 import React, { useState, useRef } from "react";
 import {
   BrowserRouter as Router,
@@ -51,6 +52,35 @@ function App() {
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Layout>
+
+        <CookieConsent
+          location="bottom"
+          buttonText="Прийняти"
+          cookieName="memoryGame_GDPR_Consent"
+          expires={150}
+          overlay
+          style={{
+            background: "#2d3436",
+            color: "#ffffff",
+            fontSize: "14px",
+            padding: "20px",
+            textAlign: "center",
+          }}
+          buttonStyle={{
+            background: "#4a86b8",
+            color: "#ffffff",
+            borderRadius: "8px",
+            fontWeight: "bold",
+          }}
+        >
+          Для використання проєкту потрібно прийняти Cookie
+          <a
+            href="/PRIVACY_POLICY.txt"
+            style={{ color: "#ff793f", marginLeft: "8px" }}
+          >
+            Докладніше
+          </a>
+        </CookieConsent>
 
         {showModal && (
           <ResultModal

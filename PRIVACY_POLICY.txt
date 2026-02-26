@@ -1,0 +1,19 @@
+Privacy Policy
+
+Last updated: February 26, 2026
+
+1. General
+    This application is a web game "Memory Game". We value your privacy and do not collect your personal data on external servers.
+
+2. What data do we process and why?
+    We use the Local Storage mechanism of your browser to:
+      - Save the selected difficulty level (number of pairs).
+      - Maintain the "Score Table" (player name, number of moves, data).
+
+3. Data storage
+    - Locality: Your data never leaves your device.
+    - Right to delete: You can delete all data at any time by clicking the "Clear history" button in the score table or by clearing your browser cache.
+    - Cookies: We only use technical cookies necessary to remember your consent when using the cookie policy.
+
+4.  Contacts
+    If you have any questions about the game, please contact the developer vt231_pdm@student.ztu.edu.ua.
