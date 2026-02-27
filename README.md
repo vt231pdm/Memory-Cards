@@ -70,8 +70,7 @@
 Згенерувати документацію:
 npm run docs
 
-Перегляд:
-./docs/index.html
+Переглянути документацію можна [тут](https://drive.google.com/file/d/1PvOGMS9cWXqk7t0b5KAAYn151mFI-SrT/view?usp=sharing)
 
 ## 2. Storybook (візуальна документація)
 
