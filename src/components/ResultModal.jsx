@@ -1,7 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import styles from "../styles/App.module.css";
-
+/** @module Components */
+/**
+ * Модальне вікно з результатами гри.
+ *
+ * Відображається після завершення гри та показує кількість ходів.
+ * Рендериться через React Portal у document.body.
+ *
+ * @component
+ * @param {Object} props - Властивості компонента.
+ * @param {number} props.moves - Кількість ходів, за які гравець завершив гру.
+ * @param {function} props.onRestart - Обробник для перезапуску поточної гри.
+ * @param {function} props.onNewGame - Обробник для повернення на головну сторінку.
+ *
+ * @returns {JSX.Element} Модальне вікно з результатами та кнопками керування.
+ */
 export const ResultModal = ({ moves, onRestart, onNewGame }) => {
   return ReactDOM.createPortal(
     <div className={styles.modalOverlay}>
@@ -27,6 +41,6 @@ export const ResultModal = ({ moves, onRestart, onNewGame }) => {
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };
