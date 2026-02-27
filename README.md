@@ -1,16 +1,108 @@
-# React + Vite
+# Memory Game (React + Zustand)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+## Основні можливості
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Динамічна складність**  
+  Кількість пар карток можна змінювати (налаштовується у глобальному Store).
 
-## React Compiler
+- **Система рекордів**  
+  Зберігає топ-10 найкращих результатів у Local Storage.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Адаптивний дизайн**  
+  Коректно працює на мобільних пристроях і десктопах.
 
-## Expanding the ESLint configuration
+- **GDPR Compliance**  
+  Блокуючий Cookie Popup. Доступ до гри надається лише після прийняття умов.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Технологічний стек
+
+**Frontend**
+
+- React (Vite)
+- CSS Modules
+
+**State Management**
+
+- Zustand
+- Zustand Persist
+
+**Routing**
+
+- React Router DOM
+
+**Інше**
+
+- React Portal — модальне вікно результатів
+- Local Storage — збереження налаштувань і рекордів
+
+---
+
+## Встановлення та запуск
+
+### 1. Встановити залежності
+
+- npm install
+
+### 2. Запустити режим розробки
+
+- npm run dev
+
+### 3. Зібрати production-версію
+
+- npm run build
+
+---
+
+## Документація
+
+## 1. JSDoc (технічна документація)
+
+Проєкт задокументовано за допомогою JSDoc:
+
+- компоненти
+- хуки
+- Zustand store
+
+Згенерувати документацію:
+npm run docs
+
+Перегляд:
+./docs/index.html
+
+## 2. Storybook (візуальна документація)
+
+Описані компоненти:
+
+- Card — базовий компонент
+- ResultModal — комплексний компонент
+  Кожен має кілька варіацій станів.
+
+Запуск Storybook:
+npm run storybook
+
+## 3. Ліцензія
+
+[LICENSE](./LICENSE)
+
+---
+
+## GDPR та конфіденційність
+
+Додаток використовує Local Storage для збереження:
+
+- рівня складності
+- таблиці рекордів (ім’я та кількість ходів)
+
+Доступ до гри надається лише після прийняття умов у Cookie Popup.
+
+[Політика конфіденційності](./PRIVACY_POLICY.txt)
+
+---
+
+## Автор
+
+[Денис Простибоженко](https://github.com/vt231pdm)
