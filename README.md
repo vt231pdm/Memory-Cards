@@ -83,6 +83,8 @@ npm run docs
 Запуск Storybook:
 npm run storybook
 
+[Storybook](https://drive.google.com/file/d/1sZNCR6nieaE6NkuHqnKnt_caq6G5xNFD/view?usp=sharing)
+
 ## 3. Ліцензія
 
 [LICENSE](./LICENSE)
